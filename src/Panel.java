@@ -17,6 +17,7 @@ public class Panel extends JPanel {
         setUpInput();
     }
 
+
     public void setUpInput() {
         addKeyListener(new KeyAdapter() {
             @Override
