@@ -5,14 +5,20 @@ public class Gameboard {
     private Cell[][] cells;
     private final int rows = 4, cols = 4;
     public int score = 0;
+    SoundPlayer sp = new SoundPlayer();
 
     public Gameboard() {
+        sp.addSound("merge", "./audios/dbButtonClickFlag.wav");
+        sp.addSound("start", "./audios/firstPaint.wav");
+        sp.addSound("win", "./audios/win.wav");
         cells = new Cell[4][4];
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < cols; j++) {
                 cells[i][j] = new Cell(i, j);
             }
+        sp.playSound("start");
         startSpawn();
+
     }
 
     public void startSpawn() {
@@ -57,6 +63,7 @@ public class Gameboard {
                 Cell intruder = cells[r][c];
                 Cell target = cells[r][c - 1];
                 if (intruder.getValue() == target.getValue() && target.getValue() > 0) {
+                    sp.playSound("merge");
                     madeMove = true;
                     target.setValue(target.getValue() * 2);
                     intruder.setValue(0);
@@ -105,6 +112,7 @@ public class Gameboard {
                 Cell intruder = cells[r][c];
                 Cell target = cells[r][c + 1];
                 if (intruder.getValue() == target.getValue() && target.getValue() > 0) {
+                    sp.playSound("merge");
                     madeMove = true;
                     target.setValue(target.getValue() * 2);
                     intruder.setValue(0);
@@ -153,6 +161,7 @@ public class Gameboard {
                 Cell intruder = cells[r][c];
                 Cell target = cells[r - 1][c];
                 if (intruder.getValue() == target.getValue() && target.getValue() > 0) {
+                    sp.playSound("merge");
                     madeMove = true;
                     target.setValue(target.getValue() * 2);
                     intruder.setValue(0);
@@ -201,6 +210,7 @@ public class Gameboard {
                 Cell intruder = cells[r][c];
                 Cell target = cells[r + 1][c];
                 if (intruder.getValue() == target.getValue() && target.getValue() > 0) {
+                    sp.playSound("merge");
                     madeMove = true;
                     target.setValue(target.getValue() * 2);
                     intruder.setValue(0);
