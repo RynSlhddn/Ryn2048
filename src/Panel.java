@@ -31,6 +31,8 @@ public class Panel extends JPanel {
                     board.shiftUp();
                 if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S)
                     board.shiftDown();
+                if (key == KeyEvent.VK_R)
+                    board = new Gameboard();
                 repaint();
             }
         });
