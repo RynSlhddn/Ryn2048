@@ -255,13 +255,12 @@ public class Gameboard {
         spawn();
     }
 
-    // Testing funciton
-    public void check(Cell[][] cells, int r, int c) {
-        for (Cell[] help : cells) {
-            for (Cell me : help)
-                System.out.print(me.getValue() + " ");
-            System.out.println();
-        }
-        System.out.println("R:" + r + " C:" + c + "\n");
+    public boolean deadCheck() {
+        Cell[][] deadCells = cells.clone();
+        shiftUp(deadCells);
+        shiftLeft(deadCells);
+        shiftRight(deadCells);
+        shiftDown(deadCells);
+        return cells == deadCells;
     }
 }
