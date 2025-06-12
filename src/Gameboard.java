@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Gameboard {
 
-    public Cell[][] cells;
+    public Cell[][] thecells;
     private final int rows = 4, cols = 4;
     public int score = 0;
     SoundPlayer sp = new SoundPlayer();
@@ -11,12 +11,12 @@ public class Gameboard {
         sp.addSound("merge", "./audios/dbButtonClickFlag.wav");
         sp.addSound("start", "./audios/firstPaint.wav");
         sp.addSound("win", "./audios/win.wav");
-        cells = new Cell[4][4];
+        thecells = new Cell[4][4];
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < cols; j++) {
-                cells[i][j] = new Cell(i, j);
+                thecells[i][j] = new Cell(i, j);
             }
-        sp.playSound("start");
+        //sp.playSound("start");
         startSpawn();
 
     }
@@ -26,7 +26,7 @@ public class Gameboard {
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < cols; j++) {
                 if (Math.random() < .1875) {
-                    cells[i][j].setValue(2);
+                    thecells[i][j].setValue(2);
                     twoC++;
                 }
                 if (twoC > 1)
@@ -38,7 +38,7 @@ public class Gameboard {
     public void draw(Graphics2D g2){
         for (int r = 0; r < rows; r++)
             for (int c = 0; c < cols; c++)
-                cells[r][c].draw(g2);
+                thecells[r][c].draw(g2);
     }
 
     public void shiftLeft(Cell[][] cells) {
@@ -63,7 +63,7 @@ public class Gameboard {
                 Cell intruder = cells[r][c];
                 Cell target = cells[r][c - 1];
                 if (intruder.getValue() == target.getValue() && target.getValue() > 0) {
-                    sp.playSound("merge");
+                    //sp.playSound("merge");
                     madeMove = true;
                     target.setValue(target.getValue() * 2);
                     intruder.setValue(0);
@@ -238,17 +238,17 @@ public class Gameboard {
     }
 
     public void spawn() {
-        for (int r = 0; r < cells.length; r++)
-            for (int c = 0; c < cells[0].length; c++)
-                if (cells[r][c].getValue() == 0) {
+        for (int r = 0; r < thecells.length; r++)
+            for (int c = 0; c < thecells[0].length; c++)
+                if (thecells[r][c].getValue() == 0) {
                     if (Math.random() < .125) {
-                        cells[r][c].setValue(2);
-                        cells[r][c].setNewGuy();
+                        thecells[r][c].setValue(2);
+                        thecells[r][c].setNewGuy();
                         return;
                     }
                     if (Math.random() < .025) {
-                        cells[r][c].setValue(4);
-                        cells[r][c].setNewGuy();
+                        thecells[r][c].setValue(4);
+                        thecells[r][c].setNewGuy();
                         return;
                     }
                 }
@@ -256,11 +256,12 @@ public class Gameboard {
     }
 
     public boolean deadCheck() {
-        Cell[][] deadCells = cells.clone();
-        shiftUp(deadCells);
+        Cell[][] deadCells = new Cell[4][4];
+        deadCells = thecells.clone();
         shiftLeft(deadCells);
         shiftRight(deadCells);
+        shiftUp(deadCells);
         shiftDown(deadCells);
-        return cells == deadCells;
+        return thecells == deadCells;
     }
 }
