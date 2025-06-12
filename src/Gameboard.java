@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Gameboard {
 
-    private Cell[][] cells;
+    public Cell[][] cells;
     private final int rows = 4, cols = 4;
     public int score = 0;
     SoundPlayer sp = new SoundPlayer();
@@ -41,7 +41,7 @@ public class Gameboard {
                 cells[r][c].draw(g2);
     }
 
-    public void shiftLeft() {
+    public void shiftLeft(Cell[][] cells) {
         boolean madeMove = false;
         for (int r = 0; r < rows; r++) {
             for (int c = 1; c < cols; c++) {
@@ -90,7 +90,7 @@ public class Gameboard {
             spawn();
     }
 
-    public void shiftRight() {
+    public void shiftRight(Cell[][] cells) {
         boolean madeMove = false;
         for (int r = 0; r < rows; r++) {
             for (int c = cols - 2; c >= 0; c--) {
@@ -139,7 +139,7 @@ public class Gameboard {
             spawn();
     }
 
-    public void shiftUp () {
+    public void shiftUp (Cell[][] cells) {
         boolean madeMove = false;
         for (int c = 0; c < cols; c++) {
             for (int r = 1; r < rows; r++) {
@@ -188,7 +188,7 @@ public class Gameboard {
             spawn();
     }
 
-    public void shiftDown() {
+    public void shiftDown(Cell[][] cells) {
         boolean madeMove = false;
         for (int c = 0; c < cols; c++) {
             for (int r = rows - 2; r >= 0; r--) {

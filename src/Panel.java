@@ -4,9 +4,12 @@ import java.awt.event.*;
 
 public class Panel extends JPanel {
 
-    public static final int PSIZE = 800;
+    public static final int PSIZE = 600;
 
     private Gameboard board;
+
+    private boolean stupid = false, dumb = false;
+    public static boolean doneFor = false;
 
     public Panel() {
         super();
@@ -24,15 +27,19 @@ public class Panel extends JPanel {
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
                 if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A)
-                    board.shiftLeft();
+                    board.shiftLeft(board.cells);
                 if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D)
-                    board.shiftRight();
+                    board.shiftRight(board.cells);
                 if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W)
-                    board.shiftUp();
+                    board.shiftUp(board.cells);
                 if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S)
-                    board.shiftDown();
+                    board.shiftDown(board.cells);
                 if (key == KeyEvent.VK_R)
                     board = new Gameboard();
+                if (key == KeyEvent.VK_SPACE) {
+                    board.cells[0][0].setValue(2048);
+                    board.cells[0][1].setValue(512);
+                }
                 repaint();
             }
         });
@@ -44,13 +51,51 @@ public class Panel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
 
         board.draw(g2);
+        g2.setColor(Color.black);
+        g2.drawString(board.score + "", 650, 100);
+
+        if (board.deadCheck())
+            Panel.doneFor = true;
+
+        for (Cell[] help : board.cells) {
+            for (Cell me : help) {
+                if (me.getValue() >= 2048 && !stupid) {
+                    JFrame winFrame = new JFrame("GGs you win!");
+                    winFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+                    winFrame.setBounds(200, 386, 300, 1);
+                    JPanel winPanel = new The();
+
+                    winPanel.setFocusable(true);
+                    winPanel.grabFocus();
+                    winFrame.add(winPanel);
+                    winFrame.setVisible(true);
+                    winFrame.setResizable(false);
+                    stupid = true;
+                }
+                if (doneFor && !dumb) {
+                    JFrame loseFrame = new JFrame("You suck at the game!");
+                    loseFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+                    loseFrame.setBounds(200, 386, 300, 1);
+                    JPanel losePanel = new The();
+
+                    losePanel.setFocusable(true);
+                    losePanel.grabFocus();
+                    loseFrame.add(losePanel);
+                    loseFrame.setVisible(true);
+                    loseFrame.setResizable(false);
+                    dumb = true;
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
         JFrame window = new JFrame("2048");
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        window.setBounds(0, 0, PSIZE, PSIZE + 28);
+        window.setBounds(0, 0, PSIZE + 300, PSIZE + 28);
         JPanel panel = new Panel();
 
         panel.setFocusable(true);

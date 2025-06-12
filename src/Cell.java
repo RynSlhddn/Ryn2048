@@ -42,5 +42,9 @@ public class Cell {
             g2.drawString(value + "", col * CSIZE + 25, row * CSIZE + 100);
         else if (value < 513)
             g2.drawString(value + "", col * CSIZE, row * CSIZE + 100);
+        else {
+            g2.setFont(new Font("Arial", Font.BOLD, 63));
+            g2.drawString(value + "", col * CSIZE + 5, row * CSIZE + 100);
+        }
     }
 }
