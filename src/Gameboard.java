@@ -1,3 +1,4 @@
+
 import java.awt.*;
 
 public class Gameboard {
@@ -6,6 +7,7 @@ public class Gameboard {
     private final int rows = 4, cols = 4;
     public int score = 0;
     SoundPlayer sp = new SoundPlayer();
+    private boolean Lmade = false, Rmade = false, Umade = false, Dmade = false;
 
     public Gameboard() {
         sp.addSound("merge", "./audios/dbButtonClickFlag.wav");
@@ -42,14 +44,13 @@ public class Gameboard {
     }
 
     public void shiftLeft(Cell[][] cells) {
-        boolean madeMove = false;
         for (int r = 0; r < rows; r++) {
             for (int c = 1; c < cols; c++) {
                 Cell intruder = cells[r][c];
                 Cell target = cells[r][c - 1];
                 Cell peeker;
                 while (target.getValue() == 0 && intruder.getValue() > 0) {
-                    madeMove = true;
+                    Lmade = true;
                     target.setValue(intruder.getValue());
                     intruder.setValue(0);
                     if (c > 1) {
@@ -63,8 +64,8 @@ public class Gameboard {
                 Cell intruder = cells[r][c];
                 Cell target = cells[r][c - 1];
                 if (intruder.getValue() == target.getValue() && target.getValue() > 0) {
-                    //sp.playSound("merge");
-                    madeMove = true;
+                    sp.playSound("merge");
+                    Lmade = true;
                     target.setValue(target.getValue() * 2);
                     intruder.setValue(0);
                     score += target.getValue();
@@ -75,7 +76,7 @@ public class Gameboard {
                 Cell target = cells[r][c - 1];
                 Cell peeker;
                 while (target.getValue() == 0 && intruder.getValue() > 0) {
-                    madeMove = true;
+                    Lmade = true;
                     target.setValue(intruder.getValue());
                     intruder.setValue(0);
                     if (c > 1) {
@@ -86,19 +87,16 @@ public class Gameboard {
                 }
             }
         }
-        if (madeMove)
-            spawn();
     }
 
     public void shiftRight(Cell[][] cells) {
-        boolean madeMove = false;
         for (int r = 0; r < rows; r++) {
             for (int c = cols - 2; c >= 0; c--) {
                 Cell intruder = cells[r][c];
                 Cell target = cells[r][c + 1];
                 Cell peeker;
                 while (target.getValue() == 0 && intruder.getValue() > 0) {
-                    madeMove = true;
+                    Rmade = true;
                     target.setValue(intruder.getValue());
                     intruder.setValue(0);
                     if (c < cols - 2) {
@@ -113,7 +111,7 @@ public class Gameboard {
                 Cell target = cells[r][c + 1];
                 if (intruder.getValue() == target.getValue() && target.getValue() > 0) {
                     sp.playSound("merge");
-                    madeMove = true;
+                    Rmade = true;
                     target.setValue(target.getValue() * 2);
                     intruder.setValue(0);
                     score += target.getValue();
@@ -124,7 +122,7 @@ public class Gameboard {
                 Cell target = cells[r][c + 1];
                 Cell peeker;
                 while (target.getValue() == 0 && intruder.getValue() > 0) {
-                    madeMove = true;
+                    Rmade = true;
                     target.setValue(intruder.getValue());
                     intruder.setValue(0);
                     if (c < cols - 2) {
@@ -135,19 +133,16 @@ public class Gameboard {
                 }
             }
         }
-        if (madeMove)
-            spawn();
     }
 
     public void shiftUp (Cell[][] cells) {
-        boolean madeMove = false;
         for (int c = 0; c < cols; c++) {
             for (int r = 1; r < rows; r++) {
                 Cell intruder = cells[r][c];
                 Cell target = cells[r - 1][c];
                 Cell peeker;
                 while (target.getValue() == 0 && intruder.getValue() > 0) {
-                    madeMove = true;
+                    Umade = true;
                     target.setValue(intruder.getValue());
                     intruder.setValue(0);
                     if (r > 1) {
@@ -162,7 +157,7 @@ public class Gameboard {
                 Cell target = cells[r - 1][c];
                 if (intruder.getValue() == target.getValue() && target.getValue() > 0) {
                     sp.playSound("merge");
-                    madeMove = true;
+                    Umade = true;
                     target.setValue(target.getValue() * 2);
                     intruder.setValue(0);
                     score += target.getValue();
@@ -173,7 +168,7 @@ public class Gameboard {
                 Cell target = cells[r - 1][c];
                 Cell peeker;
                 while (target.getValue() == 0 && intruder.getValue() > 0) {
-                    madeMove = true;
+                    Umade = true;
                     target.setValue(intruder.getValue());
                     intruder.setValue(0);
                     if (r > 1) {
@@ -184,19 +179,16 @@ public class Gameboard {
                 }
             }
         }
-        if (madeMove)
-            spawn();
     }
 
     public void shiftDown(Cell[][] cells) {
-        boolean madeMove = false;
         for (int c = 0; c < cols; c++) {
             for (int r = rows - 2; r >= 0; r--) {
                 Cell intruder = cells[r][c];
                 Cell target = cells[r + 1][c];
                 Cell peeker;
                 while (target.getValue() == 0 && intruder.getValue() > 0) {
-                    madeMove = true;
+                    Dmade = true;
                     target.setValue(intruder.getValue());
                     intruder.setValue(0);
                     if (r < rows - 2) {
@@ -211,7 +203,7 @@ public class Gameboard {
                 Cell target = cells[r + 1][c];
                 if (intruder.getValue() == target.getValue() && target.getValue() > 0) {
                     sp.playSound("merge");
-                    madeMove = true;
+                    Dmade = true;
                     target.setValue(target.getValue() * 2);
                     intruder.setValue(0);
                     score += target.getValue();
@@ -222,7 +214,7 @@ public class Gameboard {
                 Cell target = cells[r + 1][c];
                 Cell peeker;
                 while (target.getValue() == 0 && intruder.getValue() > 0) {
-                    madeMove = true;
+                    Dmade = true;
                     target.setValue(intruder.getValue());
                     intruder.setValue(0);
                     if (r < rows - 2) {
@@ -233,8 +225,6 @@ public class Gameboard {
                 }
             }
         }
-        if (madeMove)
-            spawn();
     }
 
     public void spawn() {
@@ -255,9 +245,17 @@ public class Gameboard {
         spawn();
     }
 
+    public boolean checkMoved() {
+        boolean buffoon = Lmade || Rmade || Umade || Dmade;
+        Lmade = false;
+        Rmade = false;
+        Umade = false;
+        Dmade = false;
+        return buffoon;
+    }
+
     public boolean deadCheck() {
-        Cell[][] deadCells = new Cell[4][4];
-        deadCells = thecells.clone();
+        Cell[][] deadCells = thecells.clone();
         shiftLeft(deadCells);
         shiftRight(deadCells);
         shiftUp(deadCells);

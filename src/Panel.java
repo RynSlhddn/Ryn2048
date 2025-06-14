@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -50,9 +51,15 @@ public class Panel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
+        if (board.checkMoved())
+            board.spawn();
+
         board.draw(g2);
         g2.setColor(Color.black);
         g2.drawString(board.score + "", 650, 100);
+
+        if (board.deadCheck())
+            doneFor = true;
 
         for (Cell[] help : board.thecells) {
             for (Cell me : help) {
